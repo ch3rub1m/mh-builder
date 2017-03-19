@@ -1,0 +1,42 @@
+{
+  "name": "mh-builder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack-dev-server --config webpack.config.js --env.development --open",
+    "build": "webpack --config webpack.config.js --env.production",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "es6-promise": "^4.1.0",
+    "isomorphic-fetch": "^2.2.1",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-redux": "^5.0.3",
+    "react-router": "^4.0.0",
+    "react-router-dom": "^4.0.0",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.2.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-env": "^1.2.2",
+    "babel-preset-react": "^6.23.0",
+    "css-loader": "^0.27.3",
+    "html-webpack-plugin": "^2.28.0",
+    "react-hot-loader": "^3.0.0-beta.6",
+    "redux-devtools": "^3.3.2",
+    "style-loader": "^0.14.1",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.2"
+  },
+  "standard": {
+    "parser": "babel-eslint"
+  }
+}
