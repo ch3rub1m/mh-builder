@@ -1,3 +1,5 @@
+import {} from 'normalize.css/normalize.css'
+
 import { createStore } from 'redux'
 import reducers from 'reducers'
 import middlewares from 'middlewares'

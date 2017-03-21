@@ -1,0 +1,11 @@
+.conditionControl {
+  padding: .1em 1em 0.7em 1em;
+}
+
+.conditionControl>div {
+  display: inline-block;
+}
+
+.conditionControl .label {
+  display: inline-block;
+}

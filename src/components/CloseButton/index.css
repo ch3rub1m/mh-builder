@@ -1,0 +1,14 @@
+.closeButton {
+  display: inline-block;
+  line-height: 1.5em;
+  width: 1.5em;
+  height: 1.5em;
+  text-align: center;
+  transition: color 0.5s linear;
+}
+
+.closeButton:hover {
+  color: orange;
+  transition: color 0.5s linear;
+  cursor: pointer;
+}

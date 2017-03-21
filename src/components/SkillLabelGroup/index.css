@@ -1,0 +1,8 @@
+.skillLabelGroup {
+  padding: .1em 1em 0.7em 1em;
+}
+
+.skillLabelGroup > div {
+  margin-top: .5em;
+  margin-left: .5em;
+}
