@@ -1,8 +1,8 @@
 import React from 'react'
-import style from './index.css'
+import List from 'components/List'
 
 const ArmorSetList = ({ armorSets }) => (
-  <table className={style.armorSetList}>
+  <List>
     <thead>
       <tr>
         <th>头部</th>
@@ -13,15 +13,15 @@ const ArmorSetList = ({ armorSets }) => (
       </tr>
     </thead>
     <tbody>
-      {armorSets.map((armorSet)=>(
+      {armorSets.map((armorSet) => (
         <tr key={armorSet}>
-          {armorSet.map((armor, key)=>(
-            <td key={armor+key}>{armor}</td>
+          {armorSet.map((armor, key) => (
+            <td key={armor + key}>{armor}</td>
           ))}
         </tr>
       ))}
     </tbody>
-  </table>
+  </List>
 )
 
 export default ArmorSetList
