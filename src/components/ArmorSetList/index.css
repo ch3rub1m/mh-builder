@@ -1,0 +1,22 @@
+.armorSetList {
+  border-collapse:collapse;
+  width: 100%;
+}
+
+.armorSetList thead {
+  color: rgb(158, 158, 158);
+}
+
+.armorSetList tr {
+  border-bottom: 1px solid rgb(158, 158, 158);
+}
+
+.armorSetList th {
+  padding: .7em;
+}
+
+.armorSetList td {
+  padding: .7em;
+  text-align: center;
+  font-weight: lighter;
+}

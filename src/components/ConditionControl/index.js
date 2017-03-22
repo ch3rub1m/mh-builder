@@ -9,7 +9,7 @@ const ConditionControl = ({ label, options, value }) => (
       {label}
     </div>
     <InlineGroup>
-      {options.map((option) => (<RadioButton label={option} active={option === value} />))}
+      {options.map((option) => (<RadioButton key={option} label={option} active={option === value} />))}
     </InlineGroup>
   </div>
 )
