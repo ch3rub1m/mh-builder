@@ -1,9 +1,14 @@
 .radioButton {
   display: inline-block;
   padding: .2em 1em .2em 1em;
-  box-shadow: .15em .15em .3em gray;
+  box-shadow: .15em .15em .15em gray;
   line-height: 1.5em;
   cursor: pointer;
+}
+
+.radioButton:hover {
+  background-color: orange;
+  transition: background-color 0.3s linear;
 }
 
 .active {

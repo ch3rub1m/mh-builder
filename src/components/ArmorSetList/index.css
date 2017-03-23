@@ -1,0 +1,12 @@
+.armorSetList {
+  padding: 1em;
+}
+
+.armorSetList .active {
+  border-bottom: 2px solid rgb(158, 158, 158);
+}
+
+.armorSetList .line:hover {
+  background-color: orange;
+  transition: background .5s linear;
+}

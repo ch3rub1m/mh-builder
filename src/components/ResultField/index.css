@@ -1,0 +1,18 @@
+.resultField {
+  display: flex;
+  flex-direction: row;
+  flex-flow: wrap;
+  justify-content: space-between;
+}
+
+.resultField .armorSetList {
+  width: 55%;
+  height: 30rem;
+  box-shadow: .15em .15em .15em gray;
+}
+
+.resultField .armorSetDetail {
+  width: 40%;
+  height: 30rem;
+  box-shadow: .15em .15em .15em gray;
+}
