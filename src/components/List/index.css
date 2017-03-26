@@ -12,11 +12,11 @@
 }
 
 .list tr:hover {
-  border-bottom: 2px solid rgb(158, 158, 158);
   transition: border 2s linear;
 }
 
 .list th {
+  text-align: center;
   padding: .7em;
 }
 

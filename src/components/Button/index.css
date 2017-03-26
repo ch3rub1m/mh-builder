@@ -1,7 +1,6 @@
 .button {
   display: inline-block;
   padding: .5em 1em .5em 1em;
-  box-shadow: .15em .15em .15em gray;
   line-height: 1.5em;
   cursor: pointer;
   transition: background-color 0.3s linear;

@@ -1,8 +1,8 @@
 import React from 'react'
 import style from './index.css'
 
-const CloseButton = ({ label }) => (
-  <div className={style.closeButton}>
+const CloseButton = ({ label, onClick }) => (
+  <div onClick={onClick} className={style.closeButton}>
     {label}
   </div>
 )

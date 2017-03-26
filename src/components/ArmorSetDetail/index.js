@@ -2,7 +2,7 @@ import React from 'react'
 import style from './index.css'
 import List from 'components/List'
 
-const ArmorSetDetail = ({ skills, skillTypePoints }) => (
+const ArmorSetDetail = ({ skills, skillTypePoints }) =>
   <div className={style.armorSetDetail}>
     <List>
       <thead>
@@ -25,6 +25,5 @@ const ArmorSetDetail = ({ skills, skillTypePoints }) => (
       </tbody>
     </List>
   </div>
-)
 
 export default ArmorSetDetail

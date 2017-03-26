@@ -25,10 +25,10 @@ export const loadResourceReducer = (state = {}, action) => {
       return state
     case LOAD_RESOURCE_SUCCESS:
       console.log('success')
-      action.response.json().then((skills) => {
-        console.log(skills)
-      })
-      return state
+      return {
+        ...state,
+        [action.resource]: action.response
+      }
     case LOAD_RESOURCE_FAILURE:
       console.log('failure')
       return state

@@ -2,12 +2,16 @@ import React from 'react'
 import style from './index.css'
 import CloseButton from 'components/CloseButton'
 
-const SkillLabel = ({ skillName }) => (
+const SkillLabel = ({ skill, selectSkill }) => (
   <div className={style.skillLabel}>
     <div className={style.skillName}>
-      { skillName }
+      { skill.name }
     </div>
-    <CloseButton label={'X'} />
+    <CloseButton label={'X'}
+      onClick={() => {
+        selectSkill(skill.id)
+      }}
+    />
   </div>
 )
 

@@ -6,13 +6,11 @@
 }
 
 .resultField .armorSetList {
-  width: 55%;
+  width: 65%;
   height: 30rem;
-  box-shadow: .15em .15em .15em gray;
 }
 
 .resultField .armorSetDetail {
-  width: 40%;
+  width: 35%;
   height: 30rem;
-  box-shadow: .15em .15em .15em gray;
 }

@@ -35,14 +35,21 @@ export default ({ dispatch, getState }) => {
       }))
 
       return callAPI().then(
-        response => dispatch(Object.assign({}, payload, {
-          response: response,
-          type: successType
-        })),
-        error => dispatch(Object.assign({}, payload, {
-          error: error,
-          type: failureType
-        }))
+        response => response.json(),
+        error => error
+      ).then(
+        (response) => {
+          dispatch(Object.assign({}, payload, {
+            response: response,
+            type: successType
+          }))
+        },
+        (error) => {
+          dispatch(Object.assign({}, payload, {
+            error: error,
+            type: failureType
+          }))
+        }
       )
     }
   }

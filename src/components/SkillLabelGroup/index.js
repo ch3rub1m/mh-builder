@@ -2,9 +2,9 @@ import React from 'react'
 import style from './index.css'
 import SkillLabel from 'components/SkillLabel'
 
-const SkillLabelGroup = ({ skillNames }) => (
+const SkillLabelGroup = ({ selectedSkills = [], selectSkill }) => (
   <div className={style.skillLabelGroup}>
-    { skillNames.map((skillName) => (<SkillLabel key={skillName} skillName={skillName} />)) }
+    { selectedSkills.map((skill) => (<SkillLabel key={skill.name} skill={skill} selectSkill={selectSkill} />)) }
   </div>
 )
 

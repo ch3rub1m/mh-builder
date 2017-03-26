@@ -1,12 +1,15 @@
-.armorSetList {
+.skillList {
+  font-size: .5rem;
   padding: 1em;
+  overflow: auto;
+  max-height: 40em;
 }
 
-.armorSetList .active {
+.skillList .active {
   background-color: orange;
 }
 
-.armorSetList .line:hover {
+.skillList .line:hover {
   background-color: orange;
   transition: background .5s linear;
 }
