@@ -6,8 +6,8 @@ export class Node {
 }
 
 export class DataNode extends Node {
-  constructor (data, valueMap = new Map(), children = []) {
-    super(valueMap, children)
+  constructor (data, valueMap = new Map()) {
+    super(valueMap)
     this.data = data
   }
 }
@@ -33,7 +33,7 @@ export const or = (nodes, keypoint) => {
   let orNodes = []
   let orNodeMap = new Map()
   for (let node of nodes) {
-    const value = node.valueMap.get(keypoint)
+    const value = node.valueMap.get(keypoint) || 0
     if (!orNodeMap.has(value)) {
       orNodeMap.set(value, [])
     }
