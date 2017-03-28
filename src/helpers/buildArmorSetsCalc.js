@@ -30,6 +30,11 @@ const nodesToArmorSets = (nodes) => {
   return []
 }
 
+const flattenNodes = (nodes) => {
+  if (nodes[0].instanceOf(DataNode)) return nodes
+  return nodes.reduce((previous, current) => previous.concat(flattenNodes(current.children)), [])
+}
+
 export default (selectedSkills, filteredArmors) => {
   const skillTypeID = selectedSkills[0].skill_type_id
   const requiredPoint = selectedSkills[0].required_point
@@ -38,8 +43,9 @@ export default (selectedSkills, filteredArmors) => {
   const nodes = dataNodesList.reduce((previous, current) =>
     previous ? or(combine(or(current, skillTypeID), previous), skillTypeID) : or(current, skillTypeID)
   ).filter((node) =>
-    Math.abs(node.valueMap.get(skillTypeID)) > Math.abs(requiredPoint)
+    Math.abs(node.valueMap.get(skillTypeID)) >= Math.abs(requiredPoint)
   )
+  console.log(nodes)
   const armorSets = nodesToArmorSets(nodes)
   return armorSets
 }

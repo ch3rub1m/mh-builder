@@ -1,5 +1,6 @@
 export class Node {
-  constructor (valueMap = new Map(), children = []) {
+  constructor (type, valueMap = new Map(), children = []) {
+    this.type = type
     this.valueMap = valueMap
     this.children = children
   }
@@ -7,7 +8,7 @@ export class Node {
 
 export class DataNode extends Node {
   constructor (data, valueMap = new Map()) {
-    super(valueMap)
+    super('data', valueMap)
     this.data = data
   }
 }
@@ -26,7 +27,7 @@ export const and = (a, b) => {
     const oldValue = valueMap.get(key) || 0
     valueMap.set(key, oldValue + value)
   }
-  return new Node(valueMap, [a, b])
+  return new Node('and', valueMap, [a, b])
 }
 
 export const or = (nodes, keypoint) => {
@@ -41,7 +42,7 @@ export const or = (nodes, keypoint) => {
   }
   for (let pairs of orNodeMap) {
     const valueMap = new Map([[keypoint, pairs[0]]])
-    const orNode = new Node(valueMap, pairs[1])
+    const orNode = new Node('or', valueMap, pairs[1])
     orNodes.push(orNode)
   }
   return orNodes
@@ -55,4 +56,7 @@ export const combine = (nodeAs, nodeBs) => {
     }
   }
   return andNodes
+}
+
+export const split = (node) => {
 }
