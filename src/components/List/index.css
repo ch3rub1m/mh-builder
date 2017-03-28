@@ -11,17 +11,20 @@
   border-bottom: 1px solid rgb(158, 158, 158);
 }
 
-.list tr:hover {
-  transition: border 2s linear;
-}
-
 .list th {
   text-align: center;
-  padding: .7em;
+  padding-left: 2em;
+  padding-right: 2em;
 }
 
 .list td {
-  padding: .7em;
   text-align: center;
+  padding-left: 2em;
+  padding-right: 2em;
   font-weight: lighter;
+}
+
+.list>tbody>tr:hover {
+  background-color: orange;
+  transition: background-color .5s linear;
 }

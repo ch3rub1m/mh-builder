@@ -2,8 +2,8 @@ import React from 'react'
 import style from './index.css'
 import List from 'components/List'
 
-const ArmorSetList = ({ armorSets, activedIndex }) => (
-  <div className={style.armorSetList}>
+const ArmorSetList = ({ armorSets = [], activedIndex }) => (
+  <div>
     <List>
       <thead>
         <tr>
@@ -18,7 +18,7 @@ const ArmorSetList = ({ armorSets, activedIndex }) => (
         {armorSets.map((armorSet, i) => (
           <tr className={`${style.line} ${activedIndex === i ? style.active : ''}`} key={armorSet + i}>
             {armorSet.map((armor, j) => (
-              <td key={armor + i + j}>{armor}</td>
+              <td key={armor + i + j}>{armor.name}</td>
             ))}
           </tr>
         ))}

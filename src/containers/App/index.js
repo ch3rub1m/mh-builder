@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
@@ -8,9 +8,6 @@ import ConditionField from 'components/ConditionField'
 import ResultField from 'components/ResultField'
 
 class App extends Component {
-  constructor (props) {
-    super(props)
-  }
 
   componentDidMount () {
     const { loadResource } = this.props
@@ -23,25 +20,24 @@ class App extends Component {
   }
 
   render () {
-    const { skillTypes, skills, armors, selectSkill, selectedSkills, gender, selectGender, job, selectJob, buildArmorSets } = this.props
+    const { skillTypes, skills, armors, selectSkill, selectedSkills, gender, selectGender, job, selectJob, buildArmorSets, armorSets } = this.props
     return (
-      <div className={`${style.root} container`}>
-        <div className={'row'}>
-          <div className={`three columns`}>
-            <SkillList skills={skills} skillTypes={skillTypes} selectedSkills={selectedSkills} selectSkill={selectSkill} />
-          </div>
-          <div className={`nine columns`}>
-            <ConditionField className={'row'}
-              armors={armors}
-              selectedSkills={selectedSkills}
-              selectSkill={selectSkill}
-              gender={gender}
-              selectGender={selectGender}
-              job={job}
-              selectJob={selectJob}
-              buildArmorSets={buildArmorSets} />
-            <ResultField className={'row'} />
-          </div>
+      <div className={style.root}>
+        <div className={style.left}>
+          <SkillList skills={skills} skillTypes={skillTypes} selectedSkills={selectedSkills} selectSkill={selectSkill} />
+        </div>
+        <div className={style.right}>
+          <ConditionField className={'row'}
+            armors={armors}
+            selectedSkills={selectedSkills}
+            selectSkill={selectSkill}
+            gender={gender}
+            selectGender={selectGender}
+            job={job}
+            selectJob={selectJob}
+            buildArmorSets={buildArmorSets} />
+          <ResultField className={'row'}
+            armorSets={armorSets} />
         </div>
       </div>
     )
@@ -60,13 +56,15 @@ const selector = (state) => {
   selectedSkillIDs = selectedSkillIDs || new Set()
   selectedSkillIDs = Array.from(selectedSkillIDs)
   const selectedSkills = selectedSkillIDs.map(skillID => skills[skillID - 1])
+  const { armorSets } = state.buildArmorSetsReducer
   return {
     skillTypes,
     skills,
     selectedSkills,
     gender,
     job,
-    armors
+    armors,
+    armorSets
   }
 }
 

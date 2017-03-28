@@ -1,3 +1,8 @@
 .conditionField {
   text-align: center;
 }
+
+.conditionField .top {
+  padding-top: 1em;
+  min-height: 4em;
+}

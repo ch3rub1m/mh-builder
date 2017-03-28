@@ -7,9 +7,9 @@ import Button from 'components/Button'
 
 const ConditionField = ({ armors = [], selectedSkills = [], selectSkill, gender = '男', selectGender, job = '剑士', selectJob, buildArmorSets }) => (
   <div className={style.conditionField}>
-    <InlineGroup>
+    <div className={style.top}>
       <SkillLabelGroup selectedSkills={selectedSkills} selectSkill={selectSkill} />
-    </InlineGroup>
+    </div>
     <InlineGroup>
       <ConditionControl label={'性别'} options={['男', '女']} value={gender} select={selectGender} />
       <ConditionControl label={'职业'} options={['剑士', '枪手']} value={job} select={selectJob} />

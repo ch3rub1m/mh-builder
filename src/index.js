@@ -1,5 +1,4 @@
-import {} from 'normalize.css/normalize.css'
-import {} from 'skeleton-css-webpack/css/skeleton.css'
+import 'normalize.css/normalize.css'
 
 import { createStore } from 'redux'
 import { reducers } from 'reducers'

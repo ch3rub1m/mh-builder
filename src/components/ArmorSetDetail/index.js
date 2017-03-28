@@ -1,9 +1,8 @@
 import React from 'react'
-import style from './index.css'
 import List from 'components/List'
 
 const ArmorSetDetail = ({ skills, skillTypePoints }) =>
-  <div className={style.armorSetDetail}>
+  <div>
     <List>
       <thead>
         <tr>

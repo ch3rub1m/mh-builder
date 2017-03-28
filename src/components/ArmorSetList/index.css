@@ -1,7 +1,3 @@
-.armorSetList {
-  padding: 1em;
-}
-
 .armorSetList .active {
   background-color: orange;
 }

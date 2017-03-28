@@ -1,4 +1,4 @@
-import { Node, DataNode, or, combine } from 'algorithms/and-or-tree'
+import { DataNode, or, combine, expand } from 'algorithms/and-or-tree'
 
 const armorToDataNode = (armor) => {
   let valueMap = new Map()
@@ -16,7 +16,7 @@ const armorsToDataNodes = (armors) => {
   return dataNodes
 }
 
-const split = (filteredArmors) => {
+const splitArmors = (filteredArmors) => {
   let armorsList = [[], [], [], [], []]
   const parts = ['头部', '胴部', '手部', '腰部', '脚部']
   for (let armor of filteredArmors) {
@@ -27,25 +27,35 @@ const split = (filteredArmors) => {
 }
 
 const nodesToArmorSets = (nodes) => {
-  return []
+  const nests = nodes.reduce((prev, current) => prev.concat(expand(current)), [])
+  return nests.reduce((prev, current) => prev.concat(current.map((nest) => undo(nest))), []).map((nest) => nest[0])
 }
 
-const flattenNodes = (nodes) => {
-  if (nodes[0].instanceOf(DataNode)) return nodes
-  return nodes.reduce((previous, current) => previous.concat(flattenNodes(current.children)), [])
+const undo = (nest) => {
+  if (nest instanceof Array) {
+    const results = []
+    for (let a of undo(nest[0])) {
+      for (let b of undo(nest[1])) {
+        results.push([].concat(a).concat(b))
+      }
+    }
+    return results
+  } else {
+    return [nest.data]
+  }
 }
 
 export default (selectedSkills, filteredArmors) => {
   const skillTypeID = selectedSkills[0].skill_type_id
   const requiredPoint = selectedSkills[0].required_point
-  const armorsList = split(filteredArmors)
+  const armorsList = splitArmors(filteredArmors)
   const dataNodesList = armorsList.map((armors) => armorsToDataNodes(armors))
   const nodes = dataNodesList.reduce((previous, current) =>
     previous ? or(combine(or(current, skillTypeID), previous), skillTypeID) : or(current, skillTypeID)
   ).filter((node) =>
     Math.abs(node.valueMap.get(skillTypeID)) >= Math.abs(requiredPoint)
   )
-  console.log(nodes)
   const armorSets = nodesToArmorSets(nodes)
+  console.log(armorSets)
   return armorSets
 }

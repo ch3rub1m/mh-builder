@@ -1,15 +1,8 @@
 .skillList {
   font-size: .5rem;
-  padding: 1em;
-  overflow: auto;
-  max-height: 40em;
+  max-height: 100%;
 }
 
 .skillList .active {
   background-color: orange;
-}
-
-.skillList .line:hover {
-  background-color: orange;
-  transition: background .5s linear;
 }

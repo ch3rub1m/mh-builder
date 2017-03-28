@@ -1,4 +1,5 @@
 .resultField {
+  font-size: .5rem;
   display: flex;
   flex-direction: row;
   flex-flow: wrap;
@@ -6,11 +7,13 @@
 }
 
 .resultField .armorSetList {
-  width: 65%;
-  height: 30rem;
+  width: 70%;
+  max-height: 100%;
+  overflow: auto;
 }
 
 .resultField .armorSetDetail {
-  width: 35%;
-  height: 30rem;
+  width: 28%;
+  max-height: 100%;
+  overflow: auto;
 }

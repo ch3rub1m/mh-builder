@@ -58,5 +58,19 @@ export const combine = (nodeAs, nodeBs) => {
   return andNodes
 }
 
-export const split = (node) => {
+export const expand = (node) => {
+  switch (node.type) {
+    case 'and':
+      const results = []
+      for (let a of expand(node.children[0])) {
+        for (let b of expand(node.children[1])) {
+          results.push(a.concat(b))
+        }
+      }
+      return results
+    case 'or':
+      return node.children.map((child) => expand(child))
+    default:
+      return [node]
+  }
 }
