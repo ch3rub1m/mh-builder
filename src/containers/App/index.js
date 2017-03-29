@@ -20,7 +20,17 @@ class App extends Component {
   }
 
   render () {
-    const { skillTypes, skills, armors, selectSkill, selectedSkills, gender, selectGender, job, selectJob, buildArmorSets, armorSets } = this.props
+    const { skillTypes,
+            skills,
+            armors,
+            selectSkill,
+            selectedSkills,
+            gender,
+            selectGender,
+            job,
+            selectJob,
+            buildArmorSets,
+            armorSets } = this.props
     return (
       <div className={style.root}>
         <div className={style.left}>

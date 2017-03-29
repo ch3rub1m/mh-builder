@@ -48,18 +48,31 @@ export const or = (nodes, keypoint) => {
   return orNodes
 }
 
-export const combine = (nodeAs, nodeBs) => {
+export const combine = (nodeAs, nodeBs, keypoint) => {
   let andNodes = []
   for (let nodeA of nodeAs) {
     for (let nodeB of nodeBs) {
       andNodes.push(and(nodeA, nodeB))
     }
   }
-  return andNodes
+  return or(andNodes, keypoint)
+}
+
+export const split = (node, keypoint) => {
+  switch (node.type) {
+    case 'or':
+      return or(node.children.reduce((previous, current) => previous.concat(split(current, keypoint)), []), keypoint)
+    case 'and':
+      return combine(split(node.children[0], keypoint), split(node.children[1], keypoint), keypoint)
+    default:
+      return node
+  }
 }
 
 export const expand = (node) => {
   switch (node.type) {
+    case 'or':
+      return node.children.map((child) => expand(child)).reduce((previous, current) => previous.concat(current), [])
     case 'and':
       const results = []
       for (let a of expand(node.children[0])) {
@@ -68,8 +81,6 @@ export const expand = (node) => {
         }
       }
       return results
-    case 'or':
-      return node.children.map((child) => expand(child)).reduce((previous, current) => previous.concat(current), [])
     default:
       return [node.data]
   }
