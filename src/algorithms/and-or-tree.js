@@ -64,13 +64,13 @@ export const expand = (node) => {
       const results = []
       for (let a of expand(node.children[0])) {
         for (let b of expand(node.children[1])) {
-          results.push(a.concat(b))
+          results.push([].concat(b).concat(a))
         }
       }
       return results
     case 'or':
-      return node.children.map((child) => expand(child))
+      return node.children.map((child) => expand(child)).reduce((previous, current) => previous.concat(current), [])
     default:
-      return [node]
+      return [node.data]
   }
 }
