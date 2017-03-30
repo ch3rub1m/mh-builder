@@ -9,7 +9,7 @@ const ArmorSetList = ({ armorSets = [], activedIndex }) => (
         <tr>
           <th>头部</th>
           <th>胴部</th>
-          <th>手部</th>
+          <th>腕部</th>
           <th>腰部</th>
           <th>脚部</th>
         </tr>

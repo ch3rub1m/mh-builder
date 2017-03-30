@@ -10,7 +10,7 @@ const armorToDataNode = (armor) => {
 
 const splitArmors = (filteredArmors) => {
   let armorsList = [[], [], [], [], []]
-  const parts = ['头部', '胴部', '手部', '腰部', '脚部']
+  const parts = ['头部', '胴部', '腕部', '腰部', '脚部']
   for (let armor of filteredArmors) {
     const index = parts.indexOf(armor.part)
     armorsList[index].push(armor)
