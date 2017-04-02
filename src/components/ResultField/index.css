@@ -1,19 +1,23 @@
 .resultField {
-  font-size: .5rem;
+  font-size: 1.2rem;
   display: flex;
   flex-direction: row;
   flex-flow: wrap;
   justify-content: space-between;
+  min-height: 0;
+  height: 100%;
 }
 
 .resultField .armorSetList {
   width: 70%;
-  max-height: 100%;
+  min-height: 0;
   overflow: auto;
+  max-height: 100%;
 }
 
 .resultField .armorSetDetail {
   width: 28%;
-  max-height: 100%;
+  min-height: 0;
   overflow: auto;
+  max-height: 100%;
 }
