@@ -12,16 +12,28 @@ const ArmorSetList = ({ armorSets = [], activedIndex }) => (
           <th>腕部</th>
           <th>腰部</th>
           <th>脚部</th>
+          <th>防</th>
+          <th>火</th>
+          <th>水</th>
+          <th>雷</th>
+          <th>龙</th>
         </tr>
       </thead>
       <tbody>
-        {armorSets.map((armorSet, i) => (
-          <tr className={`${style.line} ${activedIndex === i ? style.active : ''}`} key={armorSet + i}>
-            {armorSet.map((armor, j) => (
-              <td key={armor + i + j}>{armor.name}</td>
-            ))}
-          </tr>
-        ))}
+        {armorSets.map((armorSet, i) => {
+          return (
+            <tr className={`${style.line} ${activedIndex === i ? style.active : ''}`} key={armorSet + i}>
+              {armorSet.armors.map((armor, j) => (
+                <td key={armor + i + j}>{armor.name}</td>
+              ))}
+              <td>{armorSet.defence}</td>
+              <td>{armorSet.fire}</td>
+              <td>{armorSet.water}</td>
+              <td>{armorSet.thunder}</td>
+              <td>{armorSet.dragon}</td>
+            </tr>
+          )
+        })}
       </tbody>
     </List>
   </div>

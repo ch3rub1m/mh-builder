@@ -9,14 +9,7 @@
 }
 
 .resultField .armorSetList {
-  width: 70%;
-  min-height: 0;
-  overflow: auto;
-  max-height: 100%;
-}
-
-.resultField .armorSetDetail {
-  width: 28%;
+  width: 100%;
   min-height: 0;
   overflow: auto;
   max-height: 100%;

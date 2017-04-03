@@ -8,9 +8,6 @@ const ResultField = ({ armorSets }) => (
     <div className={style.armorSetList}>
       <ArmorSetList armorSets={armorSets} />
     </div>
-    <div className={style.armorSetDetail}>
-      <ArmorSetDetail skills={[]} skillTypePoints={[]} />
-    </div>
   </div>
 )
 

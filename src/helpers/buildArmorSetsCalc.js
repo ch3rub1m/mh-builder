@@ -1,5 +1,25 @@
 import { DataNode, or, combine, split, expand } from 'algorithms/and-or-tree'
 
+class ArmorSet {
+  constructor (armors) {
+    this.armors = armors
+    const { defence, fire, water, thunder, dragon } = armors.reduce((previous, current) => {
+      return {
+        defence: previous.defence + current.defence,
+        fire: previous.fire + current.fire,
+        water: previous.water + current.water,
+        thunder: previous.thunder + current.thunder,
+        dragon: previous.dragon + current.dragon
+      }
+    }, { defence: 0, fire: 0, water: 0, thunder: 0, dragon: 0 })
+    this.defence = defence
+    this.fire = fire
+    this.water = water
+    this.thunder = thunder
+    this.dragon = dragon
+  }
+}
+
 const armorToDataNode = (armor) => {
   let valueMap = new Map()
   for (let pairs of armor.armors_skill_types) {
@@ -25,8 +45,7 @@ const verify = (skill) => {
 const nodesToArmorSets = (nodes) => {
   return nodes.reduce((prev, current) =>
     prev.concat(expand(current)), [])
-  .map((armorSet) =>
-    [armorSet[0], armorSet[4], armorSet[1], armorSet[2], armorSet[3]])
+  .map((armors) => new ArmorSet([armors[0], armors[4], armors[1], armors[2], armors[3]]))
 }
 
 export default (selectedSkills, filteredArmors) => {
@@ -45,5 +64,6 @@ export default (selectedSkills, filteredArmors) => {
     ).filter(verify(skill))
   }
   const armorSets = nodesToArmorSets(nodes)
+  armorSets.sort((a, b) => b.defence - a.defence)
   return armorSets.slice(0, 100)
 }
