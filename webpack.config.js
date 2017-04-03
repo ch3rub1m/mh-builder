@@ -3,7 +3,13 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const config = (env) => ({
-  entry: './src/index.js',
+  entry: {
+    'app': [
+      'babel-polyfill',
+      'react-hot-loader/patch',
+      './src/index.js'
+    ]
+  },
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist')
@@ -15,8 +21,8 @@ const config = (env) => ({
       use: {
         loader: 'babel-loader',
         options: {
-          presets: ['env', 'react'],
-          plugins: ['transform-object-rest-spread']
+          presets: [['env', { 'modules': false }], 'react'],
+          plugins: ['react-hot-loader/babel', 'transform-object-rest-spread']
         }
       }
     }, {
