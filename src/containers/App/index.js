@@ -29,6 +29,8 @@ class App extends Component {
             selectGender,
             job,
             selectJob,
+            levels,
+            toggleLevel,
             buildArmorSets,
             armorSets } = this.props
     return (
@@ -45,6 +47,8 @@ class App extends Component {
             selectGender={selectGender}
             job={job}
             selectJob={selectJob}
+            levels={levels}
+            toggleLevel={toggleLevel}
             buildArmorSets={buildArmorSets} />
           <ResultField className={'row'}
             armorSets={armorSets} />
@@ -63,6 +67,7 @@ const selector = (state) => {
   let { selectedSkillIDs } = state.selectSkillReducer
   const { gender } = state.selectGenderReducer
   const { job } = state.selectJobReducer
+  const { levels } = state.toggleLevelReducer
   selectedSkillIDs = selectedSkillIDs || new Set()
   selectedSkillIDs = Array.from(selectedSkillIDs)
   const selectedSkills = selectedSkillIDs.map(skillID => skills[skillID - 1])
@@ -73,6 +78,7 @@ const selector = (state) => {
     selectedSkills,
     gender,
     job,
+    levels,
     armors,
     armorSets
   }
@@ -86,7 +92,8 @@ const mapDispatchToProps = (dispatch) => {
     selectSkill: bindActionCreators(actions.selectSkill, dispatch),
     selectGender: bindActionCreators(actions.selectGender, dispatch),
     selectJob: bindActionCreators(actions.selectJob, dispatch),
-    buildArmorSets: bindActionCreators(actions.buildArmorSets, dispatch)
+    buildArmorSets: bindActionCreators(actions.buildArmorSets, dispatch),
+    toggleLevel: bindActionCreators(actions.toggleLevel, dispatch)
   }
 }
 

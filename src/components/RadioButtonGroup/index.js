@@ -4,7 +4,7 @@ import InlineGroup from 'components/InlineGroup'
 import RadioButton from 'components/RadioButton'
 
 const ConditionControl = ({ label, options, value, select }) => (
-  <div className={style.conditionControl}>
+  <div className={style.radioButtonGroup}>
     <div className={style.label}>
       {label}
     </div>

@@ -4,10 +4,10 @@ const SELECT_GENDER = 'SELECT_GENDER'
 
 export const selectGender = makeActionCreator(SELECT_GENDER, 'gender')
 
-export const selectGenderReducer = (state = {}, action) => {
+export const selectGenderReducer = (state = { gender: '男' }, action) => {
   switch (action.type) {
     case SELECT_GENDER:
-      const gender = action.gender || '男'
+      const gender = action.gender
       return {
         ...state,
         gender
