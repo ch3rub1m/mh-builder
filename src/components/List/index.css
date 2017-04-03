@@ -1,4 +1,6 @@
 .list {
+  font-size: .75rem;
+  font-weight: lighter;
   border-collapse:collapse;
   width: 100%;
 }
@@ -7,20 +9,10 @@
   color: rgb(158, 158, 158);
 }
 
-.list tr {
-  border-bottom: 1px solid rgb(158, 158, 158);
-}
-
-.list th {
+.list th, .list td {
   text-align: center;
-  padding-left: 2em;
-  padding-right: 2em;
-}
-
-.list td {
-  text-align: center;
-  padding-left: 2em;
-  padding-right: 2em;
+  border-bottom: 1px solid #E1E1E1;
+  padding: 1.5em 1.2em 1.2em 2em;
   font-weight: lighter;
 }
 

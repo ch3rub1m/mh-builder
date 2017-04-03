@@ -1,7 +1,7 @@
 .skillLabel {
   display: inline-block;
   padding: .5em .5em .5em 1em;
-  box-shadow: .01em .01em .01em gray;
+  box-shadow: 0 0 .1em gray;
 }
 
 .skillLabel .skillName {

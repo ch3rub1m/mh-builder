@@ -1,5 +1,8 @@
 html, body {
+  font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #222;
   height: 100%;
+  margin: 0;
 }
 
 body>div {
