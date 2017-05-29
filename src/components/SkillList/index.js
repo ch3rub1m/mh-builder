@@ -2,7 +2,7 @@ import React from 'react'
 import style from './index.css'
 import List from 'components/List'
 
-const SkillList = ({ skills = [], selectedSkills = [], selectSkill }) => (
+const SkillList = ({ skills = { result: [], entities: [] }, selectedSkills = {}, selectSkill }) => (
   <div className={style.skillList}>
     <List>
       <thead>
@@ -13,17 +13,23 @@ const SkillList = ({ skills = [], selectedSkills = [], selectSkill }) => (
       </thead>
       <tbody>
         {
-          skills.map((skill, index) => (
-            <tr
-              className={`${style.line} ${selectedSkills.includes(skill) ? style.active : ''}`}
-              key={skill + index}
-              onClick={() => {
-                selectSkill(skill.id)
-              }}>
-              <td>{skill.name}</td>
-              <td>{skill.description}</td>
-            </tr>
-        ))}
+          skills.result.map((id) => {
+            const skill = skills.entities.skills[id]
+            const skillSystem = skills.entities.skillSystems[skill.skill_system]
+            const operator = skill.required_point > 0 ? '>' : '<'
+            return (
+              <tr
+                className={`${style.line} ${selectedSkills.hasOwnProperty(skill.id) ? style.active : ''}`}
+                key={skill.name}
+                onClick={() => {
+                  selectSkill(skill)
+                }}>
+                <td>{skill.name}</td>
+                <td>{skillSystem.name} {operator} {skill.required_point}</td>
+              </tr>
+            )
+          })
+        }
       </tbody>
     </List>
   </div>

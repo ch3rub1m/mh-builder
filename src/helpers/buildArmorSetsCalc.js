@@ -22,15 +22,15 @@ class ArmorSet {
 
 const armorToDataNode = (armor) => {
   let valueMap = new Map()
-  for (let pairs of armor.armors_skill_types) {
-    valueMap.set(pairs['skill_type_id'], pairs['point'])
+  for (let key of Object.keys(armor.skill_systems)) {
+    valueMap.set(parseInt(key), armor.skill_systems[key])
   }
   return new DataNode(armor, valueMap, armor.part)
 }
 
 const splitArmors = (filteredArmors) => {
   let armorsList = [[], [], [], [], []]
-  const parts = ['头部', '腕部', '腰部', '脚部', '胴部']
+  const parts = [0, 2, 3, 4, 1]
   for (let armor of filteredArmors) {
     const index = parts.indexOf(armor.part)
     armorsList[index].push(armor)
@@ -39,7 +39,7 @@ const splitArmors = (filteredArmors) => {
 }
 
 const verify = (skill) => {
-  return (node) => Math.abs(node.valueMap.get(skill.skill_type_id)) >= Math.abs(skill.required_point)
+  return (node) => Math.abs(node.valueMap.get(skill.skill_system)) >= Math.abs(skill.required_point)
 }
 
 const nodesToArmorSets = (nodes) => {
@@ -49,8 +49,9 @@ const nodesToArmorSets = (nodes) => {
 }
 
 export default (selectedSkills, filteredArmors) => {
+  selectedSkills = Object.keys(selectedSkills).map((key) => selectedSkills[key])
   const skill = selectedSkills[0]
-  const skillTypeID = skill.skill_type_id
+  const skillTypeID = skill.skill_system
   const armorsList = splitArmors(filteredArmors)
   const orNodesList = armorsList.map((armors) => or(armors.map(armorToDataNode), skillTypeID))
   let nodes = orNodesList.reduce((previous, current) =>
@@ -58,7 +59,7 @@ export default (selectedSkills, filteredArmors) => {
   ).filter(verify(skill))
   for (var i = 1; i < selectedSkills.length; i++) {
     const skill = selectedSkills[i]
-    const skillTypeID = skill.skill_type_id
+    const skillTypeID = skill.skill_system
     nodes = nodes.reduce((previous, current) =>
       previous.concat(split(current, skillTypeID)), []
     ).filter(verify(skill))

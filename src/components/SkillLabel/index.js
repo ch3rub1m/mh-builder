@@ -9,7 +9,7 @@ const SkillLabel = ({ skill, selectSkill }) => (
     </div>
     <CloseButton label={'X'}
       onClick={() => {
-        selectSkill(skill.id)
+        selectSkill(skill)
       }}
     />
   </div>

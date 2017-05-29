@@ -5,7 +5,7 @@ const LOAD_RESOURCE_REQUEST = 'LOAD_RESOURCE_REQUEST'
 const LOAD_RESOURCE_SUCCESS = 'LOAD_RESOURCE_SUCCESS'
 const LOAD_RESOURCE_FAILURE = 'LOAD_RESOURCE_FAILURE'
 
-export const loadResource = (resource, server = SERVER_URI, version = '') => {
+export const loadResource = (resource, version = '', server = SERVER_URI) => {
   return {
     types: [LOAD_RESOURCE_REQUEST, LOAD_RESOURCE_SUCCESS, LOAD_RESOURCE_FAILURE],
     shouldCallAPI: (state) => !state[resource],
@@ -18,19 +18,19 @@ export const loadResource = (resource, server = SERVER_URI, version = '') => {
   }
 }
 
+import { normalize } from 'normalizr'
+import { schemas } from './../schema'
+
 export const loadResourceReducer = (state = {}, action) => {
   switch (action.type) {
     case LOAD_RESOURCE_REQUEST:
-      console.log('request')
       return state
     case LOAD_RESOURCE_SUCCESS:
-      console.log('success')
       return {
         ...state,
-        [action.resource]: action.response
+        [action.resource]: normalize(action.response, [schemas[action.resource]])
       }
     case LOAD_RESOURCE_FAILURE:
-      console.log('failure')
       return state
     default:
       return state

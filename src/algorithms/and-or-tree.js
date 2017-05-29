@@ -24,7 +24,7 @@ export const and = (a, b) => {
     const oldValue = valueMap.get(key) || 0
     valueMap.set(key, oldValue + value)
   }
-  if (b.part === '胴部') {
+  if (b.part === 1) {
     for (let pair of b.valueMap) {
       const key = pair[0]
       const value = pair[1]

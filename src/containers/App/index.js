@@ -11,35 +11,42 @@ class App extends Component {
 
   componentDidMount () {
     const { loadResource } = this.props
-    loadResource('skill_types')
-    loadResource('skills')
-    loadResource('armors')
+    loadResource('skills', 'mhp')
+    loadResource('armors', 'mhp')
   }
 
   componentWillReceiveProps (nextProps) {
   }
 
   render () {
-    const { skillTypes,
-            skills,
-            armors,
-            selectSkill,
-            selectedSkills,
-            gender,
-            selectGender,
-            job,
-            selectJob,
-            levels,
-            toggleLevel,
-            buildArmorSets,
-            armorSets } = this.props
+    const {
+      skills,
+      armors
+    } = this.props
+    const {
+      selectedSkills,
+      gender,
+      job,
+      levels,
+      armorSets
+    } = this.props
+    const {
+      selectSkill,
+      selectGender,
+      selectJob,
+      toggleLevel,
+      buildArmorSets
+    } = this.props
     return (
       <div className={style.root}>
         <div className={style.left}>
-          <SkillList skills={skills} skillTypes={skillTypes} selectedSkills={selectedSkills} selectSkill={selectSkill} />
+          <SkillList
+            skills={skills}
+            selectedSkills={selectedSkills}
+            selectSkill={selectSkill} />
         </div>
         <div className={style.right}>
-          <ConditionField className={'row'}
+          <ConditionField
             armors={armors}
             selectedSkills={selectedSkills}
             selectSkill={selectSkill}
@@ -63,23 +70,19 @@ App.propTypes = {
 }
 
 const selector = (state) => {
-  const { skillTypes, skills, armors } = state.loadResourceReducer
-  let { selectedSkillIDs } = state.selectSkillReducer
+  const { skills, armors } = state.loadResourceReducer
+  let { selectedSkills } = state.selectSkillReducer
   const { gender } = state.selectGenderReducer
   const { job } = state.selectJobReducer
   const { levels } = state.toggleLevelReducer
-  selectedSkillIDs = selectedSkillIDs || new Set()
-  selectedSkillIDs = Array.from(selectedSkillIDs)
-  const selectedSkills = selectedSkillIDs.map(skillID => skills[skillID - 1])
   const { armorSets } = state.buildArmorSetsReducer
   return {
-    skillTypes,
     skills,
+    armors,
     selectedSkills,
     gender,
     job,
     levels,
-    armors,
     armorSets
   }
 }
