@@ -1,4 +1,4 @@
-import { DataNode, or, combine, split, expand } from 'algorithms/and-or-tree'
+import { Node, DataNode, or, combine, split, expand } from 'algorithms/and-or-tree'
 
 class ArmorSet {
   constructor (armors) {
@@ -21,11 +21,15 @@ class ArmorSet {
 }
 
 const armorToDataNode = (armor) => {
-  let valueMap = new Map()
+  let values = new Map()
   for (let key of Object.keys(armor.skill_systems)) {
-    valueMap.set(parseInt(key), armor.skill_systems[key])
+    values.set(parseInt(key), armor.skill_systems[key])
   }
-  return new DataNode(armor, valueMap, armor.part)
+  return new DataNode({
+    part: armor.part,
+    values: values,
+    data: armor
+  })
 }
 
 const splitArmors = (filteredArmors) => {
@@ -39,7 +43,7 @@ const splitArmors = (filteredArmors) => {
 }
 
 const verify = (skill) => {
-  return (node) => Math.abs(node.valueMap.get(skill.skill_system)) >= Math.abs(skill.required_point)
+  return (node) => Math.abs(node.values.get(skill.skill_system)) >= Math.abs(skill.required_point)
 }
 
 const nodesToArmorSets = (nodes) => {
@@ -48,20 +52,22 @@ const nodesToArmorSets = (nodes) => {
   .map((armors) => new ArmorSet([armors[0], armors[4], armors[1], armors[2], armors[3]]))
 }
 
-export default (selectedSkills, filteredArmors) => {
+export default (selectedSkills, filteredArmors, specialValues) => {
   selectedSkills = Object.keys(selectedSkills).map((key) => selectedSkills[key])
+  Node.specialValues = specialValues
   const skill = selectedSkills[0]
-  const skillTypeID = skill.skill_system
+  if (!skill) return []
+  const skillSystemID = skill.skill_system
   const armorsList = splitArmors(filteredArmors)
-  const orNodesList = armorsList.map((armors) => or(armors.map(armorToDataNode), skillTypeID))
+  const orNodesList = armorsList.map((armors) => or(armors.map(armorToDataNode), skillSystemID))
   let nodes = orNodesList.reduce((previous, current) =>
-    previous ? combine(previous, current, skillTypeID) : current
+    previous ? combine(previous, current, skillSystemID) : current
   ).filter(verify(skill))
-  for (var i = 1; i < selectedSkills.length; i++) {
+  for (let i = 1; i < selectedSkills.length; i++) {
     const skill = selectedSkills[i]
-    const skillTypeID = skill.skill_system
+    const skillSystemID = skill.skill_system
     nodes = nodes.reduce((previous, current) =>
-      previous.concat(split(current, skillTypeID)), []
+      previous.concat(split(current, skillSystemID)), []
     ).filter(verify(skill))
   }
   const armorSets = nodesToArmorSets(nodes)

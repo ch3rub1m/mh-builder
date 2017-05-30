@@ -4,7 +4,7 @@ const SELECT_SKILL = 'SELECT_SKILL'
 
 export const selectSkill = makeActionCreator(SELECT_SKILL, 'skill')
 
-export const selectSkillReducer = (state = {}, action) => {
+export const selectSkillReducer = (state = { selectedSkills: {} }, action) => {
   switch (action.type) {
     case SELECT_SKILL:
       const skill = action.skill

@@ -1,6 +1,6 @@
 import React from 'react'
 import style from './index.css'
-import CloseButton from 'components/CloseButton'
+import CloseButton from 'components/Base/CloseButton'
 
 const SkillLabel = ({ skill, selectSkill }) => (
   <div className={style.skillLabel}>

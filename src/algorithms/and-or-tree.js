@@ -1,62 +1,67 @@
 import { mapToString, stringToMap } from 'helpers/hashcode'
 
 export class Node {
-  constructor (type, valueMap = new Map(), part, children = []) {
+  static specialValues: {}
+  constructor ({ type, part, values = new Map(), children = [] }) {
     this.type = type
-    this.valueMap = valueMap
     this.part = part
+    this.values = values
     this.children = children
   }
 }
 
 export class DataNode extends Node {
-  constructor (data, valueMap = new Map(), part) {
-    super('data', valueMap, part)
+  constructor ({ part, values = new Map(), data }) {
+    super({
+      type: 'data',
+      part,
+      values
+    })
     this.data = data
   }
 }
 
 export const and = (a, b) => {
-  let valueMap = new Map()
-  for (let pair of a.valueMap) {
-    const key = pair[0]
-    const value = pair[1]
-    const oldValue = valueMap.get(key) || 0
-    valueMap.set(key, oldValue + value)
+  const specialValues = Node.specialValues
+  const values = new Map(a.values)
+  for (let [key, value] of b.values) {
+    const oldValue = values.get(key) || 0
+    let newValue = oldValue + value
+    if (b.part === 1) {
+      newValue = [
+        newValue,
+        values.get(specialValues['胴系統+1'] && specialValues['胴系統+1'].id) || 0,
+        values.get(specialValues['胴系統+2'] && specialValues['胴系統+2'].id) * 2 || 0,
+        value * values.get(specialValues['胴系統倍加'].id)
+      ].reduce((a, b) => a + b)
+    }
+    values.set(key, newValue)
   }
   if (b.part === 1) {
-    for (let pair of b.valueMap) {
-      const key = pair[0]
-      const value = pair[1]
-      if (![60, 61, 62].includes(key)) {
-        const oldValue = valueMap.get(key) || 0
-        const newValue = oldValue + valueMap.get(60) + valueMap.get(61) * 2 + value * valueMap.get(62) + value
-        valueMap.set(key, newValue)
-      }
-    }
-    valueMap.delete(60)
-    valueMap.delete(61)
-    valueMap.delete(62)
-  } else {
-    for (let pair of b.valueMap) {
-      const key = pair[0]
-      const value = pair[1]
-      const oldValue = valueMap.get(key) || 0
-      valueMap.set(key, oldValue + value)
+    for (let key of Object.keys(specialValues)) {
+      const specialValue = specialValues[key]
+      values.delete(specialValue.id)
     }
   }
-  return new Node('and', valueMap, 'multiple', [a, b])
+  return new Node({
+    type: 'and',
+    part: 'multiple',
+    values,
+    children: [a, b]
+  })
 }
 
 export const or = (nodes, keypoint) => {
+  const specialValues = Node.specialValues
   let orNodeMap = new Map()
   for (let node of nodes) {
-    let valueMap = new Map()
-    valueMap.set(keypoint, node.valueMap.get(keypoint) || 0)
-    valueMap.set(60, node.valueMap.get(60) || 0)
-    valueMap.set(61, node.valueMap.get(61) || 0)
-    valueMap.set(62, node.valueMap.get(62) || 0)
-    const hashcode = mapToString(valueMap)
+    let values = new Map()
+    values.set(keypoint, node.values.get(keypoint) || 0)
+    for (let key of Object.keys(specialValues)) {
+      const specialValue = specialValues[key]
+      values.set(specialValue.id, node.values.get(specialValue.id) || 0)
+    }
+    const hashcode = mapToString(values)
     if (!orNodeMap.has(hashcode)) {
       orNodeMap.set(hashcode, [])
     }
@@ -64,10 +69,15 @@ export const or = (nodes, keypoint) => {
   }
   let orNodes = []
   const part = nodes[0] && nodes[0].part
-  for (let pair of orNodeMap) {
-    const hashcode = pair[0]
-    const valueMap = stringToMap(hashcode)
-    const orNode = new Node('or', valueMap, part, pair[1])
+  for (let [key, value] of orNodeMap) {
+    const hashcode = key
+    const values = stringToMap(hashcode)
+    const orNode = new Node({
+      type: 'or',
+      part,
+      values,
+      children: value
+    })
     orNodes.push(orNode)
   }
   return orNodes

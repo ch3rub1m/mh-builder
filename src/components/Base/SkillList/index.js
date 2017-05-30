@@ -1,6 +1,6 @@
 import React from 'react'
 import style from './index.css'
-import List from 'components/List'
+import List from 'components/Base/List'
 
 const SkillList = ({ skills = { result: [], entities: [] }, selectedSkills = {}, selectSkill }) => (
   <div className={style.skillList}>

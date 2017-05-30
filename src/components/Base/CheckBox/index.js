@@ -1,7 +1,7 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import style from './index.css'
-import InlineGroup from 'components/InlineGroup'
-import RadioButton from 'components/RadioButton'
+import InlineGroup from 'components/Base/InlineGroup'
+import RadioButton from 'components/Base/RadioButton'
 
 const CheckBox = ({ label, options, values, select }) =>
   <div className={style.checkBox}>
@@ -12,12 +12,5 @@ const CheckBox = ({ label, options, values, select }) =>
       {options.map((option) => <RadioButton key={option} label={option} active={values.includes(option)} onClick={() => select(option)} />)}
     </InlineGroup>
   </div>
-
-CheckBox.propTypes = {
-  label: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(PropTypes.string),
-  values: PropTypes.arrayOf(PropTypes.string),
-  select: PropTypes.func.isRequired
-}
 
 export default CheckBox

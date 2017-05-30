@@ -1,7 +1,7 @@
 import React from 'react'
 import style from './index.css'
-import InlineGroup from 'components/InlineGroup'
-import RadioButton from 'components/RadioButton'
+import InlineGroup from 'components/Base/InlineGroup'
+import RadioButton from 'components/Base/RadioButton'
 
 const ConditionControl = ({ label, options, value, select }) => (
   <div className={style.radioButtonGroup}>
