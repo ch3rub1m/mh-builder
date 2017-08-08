@@ -9,6 +9,7 @@ import Button from 'components/Base/Button'
 const ConditionField = ({
   skillSystems,
   armors,
+  decorators,
   selectedSkills,
   gender,
   job,
@@ -28,7 +29,7 @@ const ConditionField = ({
        <RadioButtonGroup label={'职业'} options={['剑士', '枪手']} value={job} select={selectJob} />
        {/* <CheckBox label={'搜索范围'} options={[1, 2, 3, 4, 5, 6, 7, 8]} values={rares} select={toggleLevel} /> */}
        <Button label={'开始搜索'} onClick={() =>
-          buildArmorSets(skillSystems, armors, {
+          buildArmorSets(skillSystems, armors, decorators, {
             selectedSkills,
             gender,
             job,

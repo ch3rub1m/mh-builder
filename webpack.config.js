@@ -22,7 +22,7 @@ const config = (env) => ({
         loader: 'babel-loader',
         options: {
           presets: [['env', { 'modules': false }], 'react'],
-          plugins: ['react-hot-loader/babel', 'transform-object-rest-spread']
+          plugins: ['react-hot-loader/babel', 'transform-object-rest-spread', 'transform-class-properties']
         }
       }
     }, {

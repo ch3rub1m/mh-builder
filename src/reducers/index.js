@@ -1,4 +1,4 @@
-import { loadResource, loadResourceReducer } from 'reducers/loadResource'
+import fetchReducer, { fetchRequested } from 'reducers/fetch'
 import { selectSkill, selectSkillReducer } from 'reducers/selectSkill'
 import { selectGender, selectGenderReducer } from 'reducers/selectGender'
 import { selectJob, selectJobReducer } from 'reducers/selectJob'
@@ -8,7 +8,7 @@ import { buildArmorSets, buildArmorSetsReducer } from 'reducers/buildArmorSets'
 // actions
 
 export const actions = {
-  loadResource,
+  fetchRequested,
   selectSkill,
   selectGender,
   selectJob,
@@ -21,7 +21,7 @@ export const actions = {
 import { combineReducers } from 'redux'
 
 export const reducers = combineReducers({
-  loadResourceReducer,
+  fetchReducer,
   selectSkillReducer,
   selectGenderReducer,
   selectJobReducer,

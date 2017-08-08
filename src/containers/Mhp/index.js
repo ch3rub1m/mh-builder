@@ -10,10 +10,10 @@ import ResultField from 'components/Base/ResultField'
 class Mhp extends Component {
 
   componentDidMount () {
-    const { loadResource } = this.props
-    loadResource('skill_systems', 'mhp')
-    loadResource('skills', 'mhp')
-    loadResource('armors', 'mhp')
+    const { fetchRequested } = this.props
+    fetchRequested({ version: 'mhp', resource: 'skill_systems' })
+    fetchRequested({ version: 'mhp', resource: 'skills' })
+    fetchRequested({ version: 'mhp', resource: 'armors' })
   }
 
   componentWillReceiveProps (nextProps) {
@@ -69,7 +69,7 @@ class Mhp extends Component {
 }
 
 const selector = (state) => {
-  const { 'skill_systems': skillSystems, skills, armors } = state.loadResourceReducer
+  const { 'skill_systems': skillSystems, skills, armors } = state.fetchReducer
   let { selectedSkills } = state.selectSkillReducer
   const { gender } = state.selectGenderReducer
   const { job } = state.selectJobReducer
@@ -91,7 +91,7 @@ import { actions } from 'reducers'
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadResource: bindActionCreators(actions.loadResource, dispatch),
+    fetchRequested: bindActionCreators(actions.fetchRequested, dispatch),
     selectSkill: bindActionCreators(actions.selectSkill, dispatch),
     selectGender: bindActionCreators(actions.selectGender, dispatch),
     selectJob: bindActionCreators(actions.selectJob, dispatch),

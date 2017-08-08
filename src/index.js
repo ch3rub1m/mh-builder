@@ -1,8 +1,4 @@
-import { createStore } from 'redux'
-import { reducers } from 'reducers'
-import middlewares from 'middlewares'
-let store = createStore(reducers, middlewares)
-
+import store from './store'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'

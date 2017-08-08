@@ -28,7 +28,7 @@ const ConditionField = ({
        <RadioButtonGroup label={'职业'} options={['剑士', '枪手']} value={job} select={selectJob} />
        <CheckBox label={'搜索范围'} options={['下位', '上位', 'G级']} values={levels} select={toggleLevel} />
        <Button label={'开始搜索'} onClick={() =>
-          buildArmorSets(skillSystems, armors, {
+          buildArmorSets(skillSystems, armors, [], {
             selectedSkills,
             gender,
             job,

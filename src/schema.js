@@ -1,4 +1,4 @@
-import { schema } from 'normalizr'
+import { normalize, denormalize, schema } from 'normalizr'
 
 const skillSystem = new schema.Entity('skillSystems')
 const skill = new schema.Entity('skills', {
@@ -13,3 +13,6 @@ export const schemas = {
   'armors': armor,
   'decorators': decorator
 }
+
+export const normalizeDecorators = (decorators) => normalize(decorators, [schemas['decorators']], decorators.entities)
+export const denormalizedDecorators = (decorators) => denormalize(decorators.result, [schemas['decorators']], decorators.entities)

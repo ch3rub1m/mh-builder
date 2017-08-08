@@ -1,15 +1,16 @@
 import makeActionCreator from 'helpers/makeActionCreator'
-import buildArmorSetsCalc from 'helpers/buildArmorSetsCalc'
+import build from 'algorithms'
 
 const BUILD_ARMOR_SETS = 'BUILD_ARMOR_SETS'
 
-export const buildArmorSets = makeActionCreator(BUILD_ARMOR_SETS, 'skillSystems', 'armors', 'conditions')
+export const buildArmorSets = makeActionCreator(BUILD_ARMOR_SETS, 'skillSystems', 'armors', 'decorators', 'conditions')
 export const buildArmorSetsReducer = (state = {}, action) => {
   switch (action.type) {
     case BUILD_ARMOR_SETS:
       const { selectedSkills } = action.conditions
       const filteredArmors = filterArmors(action.armors, action.conditions)
-      const armorSets = buildArmorSetsCalc(selectedSkills, filteredArmors, specialValues(action.skillSystems))
+      const { decorators } = action
+      const armorSets = build(selectedSkills, filteredArmors, decorators, specialValues(action.skillSystems))
       return {
         ...state,
         armorSets
