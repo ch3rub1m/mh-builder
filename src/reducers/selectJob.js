@@ -1,18 +1,18 @@
-import makeActionCreator from 'helpers/makeActionCreator'
+import { createActions, handleActions } from 'redux-actions'
 
-const SELECT_JOB = 'SELECT_JOB'
+export const { selectJob } = createActions({
+  SELECT_JOB: (job) => ({
+    job
+  })
+})
 
-export const selectJob = makeActionCreator(SELECT_JOB, 'job')
-
-export const selectJobReducer = (state = { job: '剑士' }, action) => {
-  switch (action.type) {
-    case SELECT_JOB:
-      const job = action.job
-      return {
-        ...state,
-        job
-      }
-    default:
-      return state
+export default handleActions({
+  [selectJob]: (state, { payload: { job } }) => {
+    return {
+      ...state,
+      job
+    }
   }
-}
+}, {
+  job: 'swordman'
+})

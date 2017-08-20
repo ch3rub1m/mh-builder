@@ -32,7 +32,7 @@ export const assigner = (decorators, skills) => {
 const filterBySkills = (decorators, skills) => {
   return decorators.filter(decorator => {
     for (const skill of skills) {
-      if (decorator.skill_systems[skill.skill_system]) {
+      if (decorator.skill_systems[skill.skill_system.id]) {
         return true
       }
     }

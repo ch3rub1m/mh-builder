@@ -61,11 +61,12 @@ export const planting = (seeds, contributionHandler) => {
         })))
     .map(group)
     .reduce((previous, current) =>
-      previous ? group(combine(previous, current)) : current)
+      previous.length > 0 ? group(combine(previous, current)) : current, []
+    )
 }
 
 export const harvest = (roots, targetContribution) => {
   return roots
-    .filter(root => root.contribution > targetContribution)
+    .filter(root => root.contribution >= targetContribution)
     .reduce((prev, current) => prev.concat(expand(current)), [])
 }

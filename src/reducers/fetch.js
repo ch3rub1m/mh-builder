@@ -1,6 +1,7 @@
 import { createActions, handleActions } from 'redux-actions'
-import { normalize } from 'normalizr'
-import { schemas } from 'schema'
+import { put, apply, all, takeEvery } from 'redux-saga/effects'
+import fetch from 'isomorphic-fetch'
+import { normalized } from 'schema'
 import { SERVER_URI } from 'const'
 
 export const { fetchRequested, fetchSucceeded, fetchFailed } = createActions({
@@ -12,21 +13,49 @@ export const { fetchRequested, fetchSucceeded, fetchFailed } = createActions({
     method,
     payload
   }),
-  FETCH_SUCCEEDED: (resource, data) => ({ resource, data }),
-  FETCH_FAILED: (resource, error) => ({ resource, error })
+  FETCH_SUCCEEDED: (name, data) => ({ name, data }),
+  FETCH_FAILED: (name, error) => ({ name, error })
 })
 
+function * fetchRequestedSaga ({ payload: { ssl, server, version, resource, method, payload } }) {
+  const uri = `http${ssl ? 's' : ''}://${server}/${version}/${resource}`
+  try {
+    const response = yield fetch(uri, {
+      method: method,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+    const contentType = response.headers.get('content-type')
+    const content = contentType.startsWith('application/json') ? yield apply(response, response.json) : yield apply(response, response.text)
+    if (!(`${response.status}`.startsWith('2'))) {
+      throw new Error(content)
+    }
+    const normalizedData = normalized(content, resource)
+    const actions = Object.entries(normalizedData.entities).map(([name, data]) => put(fetchSucceeded(name, data)))
+    yield all(actions)
+  } catch (error) {
+    yield put(fetchFailed(resource, error))
+  }
+}
+
+export function * watchFetchRequestedSaga () {
+  yield takeEvery(fetchRequested, fetchRequestedSaga)
+}
+
 export default handleActions({
-  [fetchRequested]: (state, { payload: { ssl, server, version, resource, method, payload } }) => {
-    return state
-  },
-  [fetchSucceeded]: (state, { payload: { resource, data } }) => {
+  [fetchSucceeded]: (state, { payload: { name, data } }) => {
+    const resource = state[name]
     return {
       ...state,
-      [resource]: normalize(data, [schemas[resource]])
+      [name]: {
+        ...resource,
+        ...data
+      }
     }
   },
-  [fetchFailed]: (state, { payload: { data } }) => {
+  [fetchFailed]: (state, { payload: { name, error } }) => {
     return state
   }
 }, {})

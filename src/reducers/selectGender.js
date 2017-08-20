@@ -1,18 +1,18 @@
-import makeActionCreator from 'helpers/makeActionCreator'
+import { createActions, handleActions } from 'redux-actions'
 
-const SELECT_GENDER = 'SELECT_GENDER'
+export const { selectGender } = createActions({
+  SELECT_GENDER: (gender) => ({
+    gender
+  })
+})
 
-export const selectGender = makeActionCreator(SELECT_GENDER, 'gender')
-
-export const selectGenderReducer = (state = { gender: '男' }, action) => {
-  switch (action.type) {
-    case SELECT_GENDER:
-      const gender = action.gender
-      return {
-        ...state,
-        gender
-      }
-    default:
-      return state
+export default handleActions({
+  [selectGender]: (state, { payload: { gender } }) => {
+    return {
+      ...state,
+      gender
+    }
   }
-}
+}, {
+  gender: 'male'
+})

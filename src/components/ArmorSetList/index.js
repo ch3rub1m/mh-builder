@@ -1,8 +1,8 @@
 import React from 'react'
 import style from './index.css'
-import List from 'components/Base/List'
+import List from 'components/List'
 
-const ArmorSetList = ({ armorSets = [], activedIndex }) => (
+const ArmorSetList = ({ armorSets, activedIndex }) => (
   <div>
     <List>
       <thead>

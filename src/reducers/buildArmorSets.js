@@ -1,52 +1,55 @@
-import makeActionCreator from 'helpers/makeActionCreator'
+import { createActions, handleActions } from 'redux-actions'
+import { put, call, takeEvery } from 'redux-saga/effects'
 import build from 'algorithms'
 
-const BUILD_ARMOR_SETS = 'BUILD_ARMOR_SETS'
+export const { buildArmorSetsRequested, buildArmorSetsSucceeded, buildArmorSetsFailed } = createActions({
+  BUILD_ARMOR_SETS_REQUESTED: ({ selectedSkills, armors, decorators, decoratorsData }) => ({
+    selectedSkills,
+    armors,
+    decorators,
+    decoratorsData
+  }),
+  BUILD_ARMOR_SETS_SUCCEEDED: (armorSets) => ({ armorSets }),
+  BUILD_ARMOR_SETS_FAILED: (error) => ({ error })
+})
 
-export const buildArmorSets = makeActionCreator(BUILD_ARMOR_SETS, 'skillSystems', 'armors', 'decorators', 'conditions')
-export const buildArmorSetsReducer = (state = {}, action) => {
-  switch (action.type) {
-    case BUILD_ARMOR_SETS:
-      const { selectedSkills } = action.conditions
-      const filteredArmors = filterArmors(action.armors, action.conditions)
-      const { decorators } = action
-      const armorSets = build(selectedSkills, filteredArmors, decorators, specialValues(action.skillSystems))
-      return {
-        ...state,
-        armorSets
-      }
-    default:
-      return state
-  }
-}
-
-const specialValues = (skillSystems) => (
-  skillSystems.result.filter(
-    (skillSystemID) => {
-      const skillSystem = skillSystems.entities.skillSystems[skillSystemID]
-      return ['胴系統+1', '胴系統+2', '胴系統倍加'].includes(skillSystem.name)
+export default handleActions({
+  [buildArmorSetsSucceeded]: (state, { payload: { armorSets = [] } }) => {
+    return {
+      ...state,
+      armorSets
     }
-  ).reduce(
-    (previous, current) => {
-      const skillSystem = skillSystems.entities.skillSystems[current]
-      return {
-        ...previous,
-        [skillSystem.name]: skillSystem
-      }
-    },
-    {}
-  )
-)
+  },
+  [buildArmorSetsFailed]: (state, { payload: { error } }) => {
+    return state
+  }
+}, {
+  armorSets: []
+})
 
-const filterArmors = (armors, conditions) => {
-  let { gender, job, rares, levels } = conditions
-  gender = { '男': 'male', '女': 'female' }[gender]
-  job = { '剑士': 'swordman', '枪手': 'gunner' }[job]
-  levels = levels && levels.map((level) => ({'下位': 0, '上位': 1, 'G级': 2}[level]))
-  return armors.result.filter((id) => {
-    const armor = armors.entities.armors[id]
-    const inRares = rares ? rares.includes(armor.rare) : true
-    const inLevels = levels ? levels.includes(armor.level) : true
-    return armor[gender] && armor[job] && inRares && inLevels
-  }).map((id) => armors.entities.armors[id])
+export function * buildArmorSetsRequestedSaga ({ payload: { selectedSkills, armors, decorators, decoratorsData } }) {
+  const armorSets = yield call(build, selectedSkills, armors, decorators, decoratorsData)
+  yield put(buildArmorSetsSucceeded(armorSets))
 }
+
+export function * watchbuildArmorSetsRequestedSaga () {
+  yield takeEvery(buildArmorSetsRequested, buildArmorSetsRequestedSaga)
+}
+
+// const specialValues = (skillSystems) => (
+//   skillSystems.filter(
+//     (skillSystemID) => {
+//       const skillSystem = skillSystems.entities.skillSystems[skillSystemID]
+//       return ['胴系統+1', '胴系統+2', '胴系統倍加'].includes(skillSystem.name)
+//     }
+//   ).reduce(
+//     (previous, current) => {
+//       const skillSystem = skillSystems.entities.skillSystems[current]
+//       return {
+//         ...previous,
+//         [skillSystem.name]: skillSystem
+//       }
+//     },
+//     {}
+//   )
+// )

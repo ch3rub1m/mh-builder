@@ -1,7 +1,7 @@
 import React from 'react'
 import style from './index.css'
-import InlineGroup from 'components/Base/InlineGroup'
-import RadioButton from 'components/Base/RadioButton'
+import InlineGroup from 'components/InlineGroup'
+import RadioButton from 'components/RadioButton'
 
 const CheckBox = ({ label, options, values, select }) =>
   <div className={style.checkBox}>

@@ -1,17 +1,16 @@
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import style from './index.css'
-import SkillList from 'components/Base/SkillList'
-import ConditionField from 'components/Mhp2/ConditionField'
-import ResultField from 'components/Base/ResultField'
+import SkillList from 'components/SkillList'
+import ConditionField from 'components/ConditionField'
+import ResultField from 'components/ResultField'
+import { actions } from 'reducers'
+import { denormalized } from 'schema'
 
 class Mhp2 extends Component {
-
   componentDidMount () {
     const { fetchRequested } = this.props
-    fetchRequested({ version: 'mhp2', resource: 'skill_systems' })
     fetchRequested({ version: 'mhp2', resource: 'skills' })
     fetchRequested({ version: 'mhp2', resource: 'armors' })
     fetchRequested({ version: 'mhp2', resource: 'decorators' })
@@ -22,44 +21,50 @@ class Mhp2 extends Component {
 
   render () {
     const {
-      skillSystems,
       skills,
-      armors,
-      decorators
+      selectedSkillIDs,
+      selectedSkills
     } = this.props
     const {
-      selectedSkills,
       gender,
       job,
-      armorSets
+      armorSets,
+      armors,
+      decorators,
+      decoratorsData
     } = this.props
     const {
-      selectSkill,
+      toggleSkill,
       selectGender,
       selectJob,
-      buildArmorSets
+      buildArmorSetsRequested
     } = this.props
+    const build = () => {
+      buildArmorSetsRequested({
+        selectedSkills,
+        armors,
+        decorators,
+        decoratorsData
+      })
+    }
     return (
       <div className={style.root}>
         <div className={style.left}>
           <SkillList
             skills={skills}
-            selectedSkills={selectedSkills}
-            selectSkill={selectSkill} />
+            selectedSkillIDs={selectedSkillIDs}
+            toggleSkill={toggleSkill}
+          />
         </div>
         <div className={style.right}>
           <ConditionField
-            skillSystems={skillSystems}
-            skills={skills}
-            armors={armors}
-            decorators={decorators}
             selectedSkills={selectedSkills}
+            toggleSkill={toggleSkill}
             gender={gender}
-            job={job}
-            selectSkill={selectSkill}
             selectGender={selectGender}
+            job={job}
             selectJob={selectJob}
-            buildArmorSets={buildArmorSets} />
+            onSubmit={build} />
           <ResultField className={'row'}
             armorSets={armorSets} />
         </div>
@@ -69,33 +74,36 @@ class Mhp2 extends Component {
 }
 
 const selector = (state) => {
-  const { 'skill_systems': skillSystems, skills, armors, decorators } = state.fetchReducer
-  let { selectedSkills } = state.selectSkillReducer
+  const { 'skills': skillsData, 'armors': armorsData, 'decorators': decoratorsData } = state.fetchReducer
+  const { selectedSkillIDs } = state.toggleSkillReducer
+  const skills = skillsData && denormalized(Object.keys(skillsData), 'skills', state.fetchReducer)
+  const decorators = decoratorsData && denormalized(Object.keys(decoratorsData), 'decorators', state.fetchReducer)
+  const selectedSkills = skills && denormalized(selectedSkillIDs, 'skills', state.fetchReducer)
   const { gender } = state.selectGenderReducer
   const { job } = state.selectJobReducer
+  const armors = armorsData && denormalized(Object.keys(armorsData), 'armors', state.fetchReducer).filter((armor) => {
+    return armor[gender] && armor[job]
+  })
   const { armorSets } = state.buildArmorSetsReducer
   return {
-    skillSystems,
     skills,
+    selectedSkillIDs,
+    selectedSkills,
     armors,
     decorators,
-    selectedSkills,
     gender,
     job,
-    armorSets
+    armorSets,
+    decoratorsData
   }
 }
 
-import { actions } from 'reducers'
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchRequested: bindActionCreators(actions.fetchRequested, dispatch),
-    selectSkill: bindActionCreators(actions.selectSkill, dispatch),
-    selectGender: bindActionCreators(actions.selectGender, dispatch),
-    selectJob: bindActionCreators(actions.selectJob, dispatch),
-    buildArmorSets: bindActionCreators(actions.buildArmorSets, dispatch)
-  }
+const mapDispatchToProps = {
+  fetchRequested: actions.fetchRequested,
+  toggleSkill: actions.toggleSkill,
+  selectGender: actions.selectGender,
+  selectJob: actions.selectJob,
+  buildArmorSetsRequested: actions.buildArmorSetsRequested
 }
 
 export default connect(selector, mapDispatchToProps)(Mhp2)

@@ -1,5 +1,5 @@
 import React from 'react'
-import List from 'components/Base/List'
+import List from 'components/List'
 
 const ArmorSetDetail = ({ skills, skillTypePoints }) =>
   <div>

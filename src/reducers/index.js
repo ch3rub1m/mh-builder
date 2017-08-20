@@ -1,30 +1,33 @@
-import fetchReducer, { fetchRequested } from 'reducers/fetch'
-import { selectSkill, selectSkillReducer } from 'reducers/selectSkill'
-import { selectGender, selectGenderReducer } from 'reducers/selectGender'
-import { selectJob, selectJobReducer } from 'reducers/selectJob'
-import { toggleLevel, toggleLevelReducer } from 'reducers/toggleLevel'
-import { buildArmorSets, buildArmorSetsReducer } from 'reducers/buildArmorSets'
-
-// actions
+import { combineReducers } from 'redux'
+import { all } from 'redux-saga/effects'
+import fetchReducer, { watchFetchRequestedSaga, fetchRequested } from 'reducers/fetch'
+import toggleSkillReducer, { toggleSkill } from 'reducers/toggleSkill'
+import selectGenderReducer, { selectGender } from 'reducers/selectGender'
+import selectJobReducer, { selectJob } from 'reducers/selectJob'
+import toggleLevelReducer, { toggleLevel } from 'reducers/toggleLevel'
+import buildArmorSetsReducer, { watchbuildArmorSetsRequestedSaga, buildArmorSetsRequested } from 'reducers/buildArmorSets'
 
 export const actions = {
   fetchRequested,
-  selectSkill,
+  toggleSkill,
   selectGender,
   selectJob,
   toggleLevel,
-  buildArmorSets
+  buildArmorSetsRequested
 }
-
-// reducers
-
-import { combineReducers } from 'redux'
 
 export const reducers = combineReducers({
   fetchReducer,
-  selectSkillReducer,
+  toggleSkillReducer,
   selectGenderReducer,
   selectJobReducer,
   toggleLevelReducer,
   buildArmorSetsReducer
 })
+
+export const sagas = function * rootSaga () {
+  yield all([
+    watchFetchRequestedSaga(),
+    watchbuildArmorSetsRequestedSaga()
+  ])
+}

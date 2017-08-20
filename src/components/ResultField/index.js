@@ -1,6 +1,6 @@
 import React from 'react'
 import style from './index.css'
-import ArmorSetList from 'components/Base/ArmorSetList'
+import ArmorSetList from 'components/ArmorSetList'
 
 const ResultField = ({ armorSets }) => (
   <div className={style.resultField}>
