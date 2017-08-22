@@ -54,7 +54,8 @@ const config = (env) => ({
     historyApiFallback: true,
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
-    hot: true
+    hot: true,
+    port: 4200
   }
 })
 

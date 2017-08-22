@@ -1,6 +1,6 @@
 import { createActions, handleActions } from 'redux-actions'
 import { put, call, takeEvery } from 'redux-saga/effects'
-import build from 'algorithms'
+import BuildWorker from 'worker-loader!algorithms/worker'
 
 export const { buildArmorSetsRequested, buildArmorSetsSucceeded, buildArmorSetsFailed } = createActions({
   BUILD_ARMOR_SETS_REQUESTED: ({ selectedSkills, armors, decorators, decoratorsData }) => ({
@@ -27,8 +27,18 @@ export default handleActions({
   armorSets: []
 })
 
-export function * buildArmorSetsRequestedSaga ({ payload: { selectedSkills, armors, decorators, decoratorsData } }) {
-  const armorSets = yield call(build, selectedSkills, armors, decorators, decoratorsData)
+const buildPromise = (data) => {
+  return new Promise((resolve, reject) => {
+    const worker = new BuildWorker()
+    worker.postMessage(data)
+    worker.onmessage = ({ data }) => {
+      resolve(data)
+    }
+  })
+}
+
+export function * buildArmorSetsRequestedSaga ({ payload }) {
+  const armorSets = yield call(buildPromise, payload)
   yield put(buildArmorSetsSucceeded(armorSets))
 }
 

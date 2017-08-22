@@ -59,7 +59,7 @@ const contributionHandlerCreator = (skills) => {
   }
 }
 
-export default (selectedSkills = [], armors = [], decorators = [], decoratorsData = {}) => {
+export default ({ selectedSkills = [], armors = [], decorators = [], decoratorsData = {} }) => {
   const targetContribution = selectedSkills.reduce((point, skill) => point + skill.required_point, 0)
   const roots = planting(armors, contributionHandlerCreator(selectedSkills))
   const fruits = harvest(roots, targetContribution)

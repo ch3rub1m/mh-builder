@@ -40,7 +40,8 @@
     "standard": "^10.0.3",
     "style-loader": "^0.18.2",
     "webpack": "^3.5.0",
-    "webpack-dev-server": "^2.6.1"
+    "webpack-dev-server": "^2.6.1",
+    "worker-loader": "^0.8.1"
   },
   "standard": {
     "parser": "babel-eslint"
